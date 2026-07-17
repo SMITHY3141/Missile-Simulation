@@ -30,11 +30,11 @@ FRAMEWORKS =
 SRC = $(shell find src -name "*.cpp")
 OBJ = $(SRC:.cpp=.o)
 
-solver: $(OBJ)
-	$(CXX) $(OBJ) -o solver $(LDFLAGS) $(LDLIBS) $(FRAMEWORKS)
+sim: $(OBJ)
+	$(CXX) $(OBJ) -o sim $(LDFLAGS) $(LDLIBS) $(FRAMEWORKS)
 
 debug: CFLAGS += -g
-debug: solver
+debug: sim
 
 #-pthread here if needed
 
@@ -47,5 +47,5 @@ src/%.o: src/%.cpp
 #$< is the first prereq, so main.c
 
 clean:
-	rm -f src/*.o src/*/*.o solver
+	rm -f src/*.o src/*/*.o sim
 

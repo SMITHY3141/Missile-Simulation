@@ -9,6 +9,6 @@
 .vscode/
 lib/EnTT
 lib/SFML-2.6.2
-solver
+sim
 
 

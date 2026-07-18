@@ -1,4 +1,7 @@
 
+#ifndef SIM_HPP
+#define SIM_HPP
+
 #include "parser.hpp"
 #include "missile.hpp"
 #include <iostream>
@@ -11,3 +14,6 @@ namespace sim {
     void log_header_missile(std::ofstream &out);
 
 }
+
+
+#endif // SIM_HPP

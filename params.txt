@@ -1,9 +1,13 @@
 
-// Conditions
+// Simulation Conditions
 end: 20
 dt: 0.1
 
-// Missile
+rho: 1.22
+
+gravity: -9.8
+
+// Missile State
 yaw: 0
 pitch: 0
 roll: 0
@@ -13,13 +17,23 @@ y: 0
 z: 0
 
 vx: 0
-vy: 100
+vy: 0
 vz: 0
 
-// Motor
-burn_active: 0
+
+// Missile Properties
+burn_active: 1
 burn_time: 3.5
 burn_force: 30000
+
+mass: 160
+inertia_yaw: 210
+inertia_roll: 21
+inertia_pitch: 210
+
+
+
+
 
 
 

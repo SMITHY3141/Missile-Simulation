@@ -79,10 +79,17 @@ Conditions parse_params(char *save_path) {
 
         {"end", [&](const std::string &v){c.end = std::stof(v);}},
         {"dt", [&](const std::string &v){c.dt = std::stof(v);}},
+        {"gravity", [&](const std::string &v){c.gravity = std::stof(v);}},
+        {"rho", [&](const std::string &v){c.rho = std::stof(v);}},
 
         {"burn_active", [&](const std::string &v){c.m.motor.active = std::stoi(v);}},
         {"burn_time", [&](const std::string &v){c.m.motor.duration = std::stof(v);}},
-        {"burn_force", [&](const std::string &v){c.m.motor.force = std::stof(v);}}
+        {"burn_force", [&](const std::string &v){c.m.motor.force = std::stof(v);}},
+
+        {"mass", [&](const std::string &v){c.m.body.mass = std::stof(v);}},
+        {"inertia_pitch", [&](const std::string &v){c.m.body.inertia[0] = std::stof(v);}},
+        {"inertia_roll", [&](const std::string &v){c.m.body.inertia[1] = std::stof(v);}},
+        {"inertia_yaw", [&](const std::string &v){c.m.body.inertia[2] = std::stof(v);}}
     };
 
     std::ifstream file(save_path);

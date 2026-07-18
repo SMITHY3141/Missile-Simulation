@@ -20,26 +20,34 @@ namespace misl {
         float offset;
 
     };
-    struct Mass {
+    struct Fuselage {
+        float length;
+        float radius;
         float mass;
-        float inertia;
+        Vector<3> inertia; ///< order of pitch, roll, yaw
 
     };
 
     struct Missile {
         Vector<3> position;
         Vector<3> velocity;
-        Matrix<3, 3> rotation; // right and forward body vectors
+        Matrix<3, 3> rotation; // right, forward, and up body vectors
         RocketMotor motor;
         Fins fins;
+        Fuselage body;
 
     };
 
     std::ostream& operator<<(std::ostream& os, const Missile &m);
 
-    Vector<3> calculate_force(const Missile &m);
-    Vector<3> calculate_torque(const Missile &m);
-    void update_state(Missile &m, const Vector<3> &acc, const Vector<3> &rot, float dt);
+    Vector<3> force_motor(const Missile &m);
+    Vector<3> force_body(const Missile &m, float air_density);
+    Vector<3> force_fins(const Missile &m, float air_density);
+
+    Vector<3> torque_body(const Missile &m, float air_density);
+    Vector<3> torque_fins(const Missile &m, float air_density);
+
+    void update_state(Missile &m, const Vector<3> &acc, const Vector<3> &ang, float dt);
 
 }
 

@@ -51,10 +51,16 @@ template <int N>
 Vector<N> operator*(float value, const Vector<N> &self);
 
 template <int N>
+Vector<N> operator*(const Vector<N> &self, const Vector<N> &other);
+
+template <int N>
 Vector<N> operator/(const Vector<N> &self, float value);
 
 template <int N>
 Vector<N> operator/(float value, const Vector<N> &self);
+
+template <int N>
+Vector<N> operator/(const Vector<N> &self, const Vector<N> &other);
 
 // template <typename... U> // can create using {1.f, 2.f, ...}
 // Vector(U...) -> Vector<sizeof...(U)>; // how many types {float, float, float}
@@ -114,6 +120,16 @@ Vector<N> operator*(float value, const Vector<N> &self) {
     return self * value;
 }
 
+// element wise multiplication
+template <int N>
+Vector<N> operator*(const Vector<N> &self, const Vector<N> &other) {
+    Vector<N> result;
+    for (int i = 0; i < N; i++) {
+        result[i] = self[i] * other[i];
+    }
+    return result;
+}
+
 template<int N>
 Vector<N> operator/(const Vector<N> &self, float value) {
     Vector<N> result;
@@ -127,6 +143,18 @@ template<int N>
 Vector<N> operator/(float value, const Vector<N> &self) {
     return self / value;
 }
+
+template <int N>
+Vector<N> operator/(const Vector<N> &self, const Vector<N> &other) {
+    Vector<N> result;
+    for (int i = 0; i < N; i++) {
+        result[i] = self[i] / other[i];
+
+    }
+    return result;
+}
+
+
 
 template<int N>
 float Vector<N>::dot(const Vector<N> &other) const {

@@ -36,16 +36,24 @@ namespace misl {
         if (speed < 0.0001) {
             return {0.f, 0.f, 0.f};
         }
+
         float cone_area = M_PI * m.body.radius * m.body.radius;
+        float body_area = 2 * m.body.radius * m.body.length;
+
         Vector<3> forward{m.rotation[0][1], m.rotation[1][1], m.rotation[2][1]};
+        Vector<3> dir = m.velocity.normalised();
 
-        
-        Vector<3> force = -m.velocity.normalised();
-        force *= force.dot(forward) * m.body.nose_cd; // C_d approximation
-        force *= 0.5 * air_density * speed * speed * cone_area;
+        //TODO C_d should change with speed
 
-        return force;
+        // calculate area * c_d for nose and side
+        float cone_drag = cone_area;
+        cone_drag *= dir.dot(forward) * m.body.nose_cd; // C_d approximation
 
+        float body_drag = body_area;
+        body_drag *= (1 - dir.dot(forward)) * m.body.side_cd;
+
+        // combine for full drag force
+        return -dir * 0.5 * air_density * speed * speed * (cone_drag + body_drag);
 
     }
 

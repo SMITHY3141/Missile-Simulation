@@ -25,7 +25,7 @@ namespace misl {
         float radius;
         float mass;
         float nose_cd;
-        float body_cd;
+        float side_cd;
         Vector<3> inertia; ///< order of pitch, roll, yaw
 
     };

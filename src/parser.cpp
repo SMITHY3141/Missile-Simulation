@@ -76,8 +76,13 @@ Conditions parse_params(char *save_path) {
         {"vx", [&](const std::string &v){c.m.velocity[0] = std::stof(v);}},
         {"vy", [&](const std::string &v){c.m.velocity[1] = std::stof(v);}},
         {"vz", [&](const std::string &v){c.m.velocity[2] = std::stof(v);}},
+
         {"end", [&](const std::string &v){c.end = std::stof(v);}},
-        {"dt", [&](const std::string &v){c.dt = std::stof(v);}}
+        {"dt", [&](const std::string &v){c.dt = std::stof(v);}},
+
+        {"burn_active", [&](const std::string &v){c.m.motor.active = std::stoi(v);}},
+        {"burn_time", [&](const std::string &v){c.m.motor.duration = std::stof(v);}},
+        {"burn_force", [&](const std::string &v){c.m.motor.force = std::stof(v);}}
     };
 
     std::ifstream file(save_path);

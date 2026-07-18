@@ -1,5 +1,9 @@
 
+// Conditions
+end: 20
+dt: 0.1
 
+// Missile
 yaw: 0
 pitch: 0
 roll: 0
@@ -9,11 +13,14 @@ y: 0
 z: 0
 
 vx: 0
-vy: 1
+vy: 100
 vz: 0
 
-end: 20
-dt: 0.1
+// Motor
+burn_active: 0
+burn_time: 3.5
+burn_force: 30000
+
 
 
 

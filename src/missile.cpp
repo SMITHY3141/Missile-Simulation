@@ -15,8 +15,13 @@ namespace misl {
         return os;
     }
 
-    void update_state(Missile &m, const Vector<3> &force, const Vector<3> &torque, float dt) {
+    void update_state(Missile &m, const Vector<3> &acc, const Vector<3> &rot, float dt) {
         m.position += m.velocity * dt;
-        m.velocity += force * dt; // TODO mass too
+        m.velocity += acc * dt;
+
+        if (m.motor.active && m.motor.duration > 0) {
+            m.motor.duration -= dt;
+
+        }
     }
 }

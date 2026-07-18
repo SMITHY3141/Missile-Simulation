@@ -4,7 +4,7 @@
 
 .env
 *.o
-
+.swp
 
 .vscode/
 lib/EnTT

@@ -10,7 +10,7 @@ namespace misl {
     struct RocketMotor {
         float force;
         float duration;
-        bool active;
+        int active;
 
     };
 
@@ -18,6 +18,11 @@ namespace misl {
         float pitch;
         float yaw;
         float offset;
+
+    };
+    struct Mass {
+        float mass;
+        float inertia;
 
     };
 
@@ -34,8 +39,7 @@ namespace misl {
 
     Vector<3> calculate_force(const Missile &m);
     Vector<3> calculate_torque(const Missile &m);
-    void update_state(Missile &m, const Vector<3> &force, const Vector<3> &torque, float dt);
-
+    void update_state(Missile &m, const Vector<3> &acc, const Vector<3> &rot, float dt);
 
 }
 

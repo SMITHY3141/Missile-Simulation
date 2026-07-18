@@ -29,8 +29,8 @@ namespace sim {
             Vector<3> torque{0};
 
             force += misl::force_motor(m);
-            /*force += misl::force_body(m);
-            force += misl::force_fins(m);
+            //force += misl::force_body(m, c.rho);
+            /*force += misl::force_fins(m);
 
             torque += misl::torque_body(m);
             torque += misl::torque_fins(m);*/

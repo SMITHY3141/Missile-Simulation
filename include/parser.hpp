@@ -9,8 +9,8 @@ struct Conditions {
     misl::Missile m;
     float end = 1.f;
     float dt = 0.1f;
-    float gravity = -9.8f;
-    float rho = 1.22f;
+    float gravity = -9.8f; // m/s/s
+    float rho = 1.22f; ///< kg/m^3
 
     float yaw = 0.f;
     float pitch = 0.f;

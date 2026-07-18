@@ -31,6 +31,9 @@ inertia_yaw: 210
 inertia_roll: 21
 inertia_pitch: 210
 
+nose_cd: 0.1
+body_cd: 1.1
+
 
 
 

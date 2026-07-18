@@ -89,7 +89,10 @@ Conditions parse_params(char *save_path) {
         {"mass", [&](const std::string &v){c.m.body.mass = std::stof(v);}},
         {"inertia_pitch", [&](const std::string &v){c.m.body.inertia[0] = std::stof(v);}},
         {"inertia_roll", [&](const std::string &v){c.m.body.inertia[1] = std::stof(v);}},
-        {"inertia_yaw", [&](const std::string &v){c.m.body.inertia[2] = std::stof(v);}}
+        {"inertia_yaw", [&](const std::string &v){c.m.body.inertia[2] = std::stof(v);}},
+
+        {"nose_cd", [&](const std::string &v){c.m.body.nose_cd = std::stof(v);}},
+        {"body_cd", [&](const std::string &v){c.m.body.body_cd = std::stof(v);}}
     };
 
     std::ifstream file(save_path);

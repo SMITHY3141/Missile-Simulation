@@ -38,7 +38,9 @@ template<int N>
 std::ostream& operator<<(std::ostream& os, const Vector<N> &v);
 
 template <int N>
-// trailing const since it does not modify the current object
+Vector<N> operator-(const Vector<N> &self);
+
+template <int N>
 Vector<N> operator+(const Vector<N> &self, const Vector<N> &other);
 
 template <int N>
@@ -85,6 +87,14 @@ std::ostream& operator<<(std::ostream& os, const Vector<N> &v) {
     return os;
 }
 
+template <int N>
+Vector<N> operator-(const Vector<N> &self) {
+    Vector<N> result;
+    for (int i = 0; i < N; i++) {
+        result[i] = -self[i];
+    }
+    return result;
+}
 
 template<int N>
 Vector<N> operator+(const Vector<N> &self, const Vector<N> &other) {

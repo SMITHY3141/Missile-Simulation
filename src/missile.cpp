@@ -32,17 +32,19 @@ namespace misl {
     // F_d = 0.5 * p * V^2 * C_d * A
     // density in kg/m^3
     Vector<3> force_body(const Missile &m, float air_density) {
-       float speed = m.velocity.length();
-       if (speed < 0.0001) {
+        float speed = m.velocity.length();
+        if (speed < 0.0001) {
             return {0.f, 0.f, 0.f};
-       }
-       float cone_area = M_PI * m.body.radius * m.body.radius;
-
+        }
+        float cone_area = M_PI * m.body.radius * m.body.radius;
+        Vector<3> forward{m.rotation[0][1], m.rotation[1][1], m.rotation[2][1]};
 
         
-       Vector<3> force = m.velocity.normalised();
+        Vector<3> force = -m.velocity.normalised();
+        force *= force.dot(forward) * m.body.nose_cd; // C_d approximation
+        force *= 0.5 * air_density * speed * speed * cone_area;
 
-       return force;
+        return force;
 
 
     }

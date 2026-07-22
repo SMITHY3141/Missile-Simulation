@@ -35,17 +35,15 @@ namespace sim {
             torque += misl::torque_body(m);
             torque += misl::torque_fins(m);*/
 
-
-            // Calculate linear and angular acceleration from forces
-            Vector<3> acc = force / m.body.mass;
-            Vector<3> ang = torque / m.body.inertia;
-
+            // Calculate angular and linear accelerationa
+            Vector<3> ang = angular_acceleration(m, torque);
+            Vector<3> acc = acceleration(m, force);
             // acc[2] += c.gravity; // gravity
 
             misl::update_state(m, acc, ang, c.dt);
 
         }
-        log_missile(log, c.end, m); // otherwise we miss last log
+        //log_missile(log, c.end, m); // otherwise we miss last log
 
 
         log.close();

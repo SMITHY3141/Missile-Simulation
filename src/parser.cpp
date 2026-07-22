@@ -63,13 +63,16 @@ std::array<std::string, 2> split(const std::string& line, char letter) {
 
 // parses a save file into a blstc::Conditions struct.
 Conditions parse_params(char *save_path) {
-    Conditions c;
+    Conditions c{};
     
     // how to process the value of each key into the struct
     std::unordered_map<std::string, std::function<void(const std::string&)>> setters = {
         {"yaw", [&](const std::string &v){c.yaw = std::stof(v);}},
         {"pitch", [&](const std::string &v){c.pitch = std::stof(v);}},
         {"roll", [&](const std::string &v){c.roll = std::stof(v);}},
+        {"o_x", [&](const std::string &v){c.m.omega[0] = std::stof(v);}},
+        {"o_y", [&](const std::string &v){c.m.omega[1] = std::stof(v);}},
+        {"o_z", [&](const std::string &v){c.m.omega[2] = std::stof(v);}},
         {"x", [&](const std::string &v){c.m.position[0] = std::stof(v);}},
         {"y", [&](const std::string &v){c.m.position[1] = std::stof(v);}},
         {"z", [&](const std::string &v){c.m.position[2] = std::stof(v);}},
@@ -87,15 +90,10 @@ Conditions parse_params(char *save_path) {
         {"burn_force", [&](const std::string &v){c.m.motor.force = std::stof(v);}},
 
         {"mass", [&](const std::string &v){c.m.body.mass = std::stof(v);}},
-        {"inertia_pitch", [&](const std::string &v){c.m.body.inertia[0] = std::stof(v);}},
-        {"inertia_roll", [&](const std::string &v){c.m.body.inertia[1] = std::stof(v);}},
-        {"inertia_yaw", [&](const std::string &v){c.m.body.inertia[2] = std::stof(v);}},
+        {"I_pitch", [&](const std::string &v){c.m.body.inertia[0][0] = std::stof(v);}},
+        {"I_roll", [&](const std::string &v){c.m.body.inertia[1][1] = std::stof(v);}},
+        {"I_yaw", [&](const std::string &v){c.m.body.inertia[2][2] = std::stof(v);}},
 
-        {"nose_cd", [&](const std::string &v){c.m.body.nose_cd = std::stof(v);}},
-        {"side_cd", [&](const std::string &v){c.m.body.side_cd = std::stof(v);}},
-
-        {"radius", [&](const std::string &v){c.m.body.radius = std::stof(v);}},
-        {"length", [&](const std::string &v){c.m.body.length = std::stof(v);}}
     };
 
     std::ifstream file(save_path);

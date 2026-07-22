@@ -4,13 +4,18 @@
 #include "missile.hpp"
 #include <iostream>
 
+#define RIGHT 0
+#define FORWARD 1
+#define UP 2
 
 namespace misl {
     std::ostream& operator<<(std::ostream& os, const Missile &m) {
         os << "MISSILE" << '\n'
            << "position: " << m.position << '\n'
            << "velocity: " << m.velocity << '\n'
+           << "omega: " << m.omega << '\n'
            << "rotation: " << m.rotation << '\n'
+           << "inertia: " << m.body.inertia << '\n'
            << "motor active: " << m.motor.active << '\n'
            << "motor duration: " << m.motor.duration << '\n'
            << "motor force: " << m.motor.force;
@@ -31,35 +36,45 @@ namespace misl {
     // aerodynamic drag caused by the fuselage body.
     // F_d = 0.5 * p * V^2 * C_d * A
     // density in kg/m^3
+    // TODO add a lookup function for C_d coefficients (they should depend
+    // with things like aoa and speed too).
     Vector<3> force_body(const Missile &m, float air_density) {
         float speed = m.velocity.length();
-        if (speed < 0.0001) {
+        if (speed < 1e-6) {
             return {0.f, 0.f, 0.f};
         }
 
-        float cone_area = M_PI * m.body.radius * m.body.radius;
-        float body_area = 2 * m.body.radius * m.body.length;
+        Vector<3> vel_hat = m.velocity.normalised();
+        Vector<3> right = get_column(m.rotation, RIGHT);
+        Vector<3> forward = get_column(m.rotation, FORWARD);
+        Vector<3> up = get_column(m.rotation, UP);
+        float aoa = -std::atan2(up.dot(m.velocity), forward.dot(m.velocity));
+        float slip = std::atan2(right.dot(m.velocity), forward.dot(m.velocity));
 
-        Vector<3> forward{m.rotation[0][1], m.rotation[1][1], m.rotation[2][1]};
-        Vector<3> dir = m.velocity.normalised();
+        float pressure = 0.5 * air_density * speed * speed; // dynamic pressure
 
-        //TODO C_d should change with speed
+        return {0.f, 0.f, 0.f};
 
-        // calculate area * c_d for nose and side
-        float cone_drag = cone_area;
-        cone_drag *= dir.dot(forward) * m.body.nose_cd; // C_d approximation
+    }
+    
+    Vector<3> acceleration(const Missile &m, const Vector<3> &force) {
+        return force / m.body.mass;
+    
+    }
 
-        float body_drag = body_area;
-        body_drag *= (1 - dir.dot(forward)) * m.body.side_cd;
-
-        // combine for full drag force
-        return -dir * 0.5 * air_density * speed * speed * (cone_drag + body_drag);
+    Vector<3> angular_acceleration(const Missile &m, const Vector<3> &torque) {
+        return m.body.inertia.inverse() * (torque - m.omega.cross(m.body.inertia * m.omega));
 
     }
 
     void update_state(Missile &m, const Vector<3> &acc, const Vector<3> &ang, float dt) {
         m.position += m.velocity * dt;
         m.velocity += acc * dt;
+
+        m.rotation = rotate(m.rotation, m.omega * dt);
+        //normalise_gram(m.rotation); // probably doesn't have to be every tick
+        m.omega += ang * dt;
+
 
         if (m.motor.active && m.motor.duration > 0) {
             m.motor.duration -= dt; // TODO redo motors, should depend on exit speed and mass burn rate, thus decreasing mass with burn

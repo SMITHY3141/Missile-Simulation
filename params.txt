@@ -1,16 +1,22 @@
 
-// Simulation Conditions
+// Simulation Settings
 end: 20
 dt: 0.1
 
-rho: 1.22
 
-gravity: -9.8
+// Simulation Conditions
+rho: 1.22 // air density kg/m^3
+gravity: -9.8 // m/s/s
+
 
 // Missile State
 yaw: 0
 pitch: 0
 roll: 0
+
+o_x: 0 // about x axis
+o_y: 0 // about y axis
+o_z: 0 // about z axis
 
 x: 0
 y: 0
@@ -27,21 +33,12 @@ burn_time: 3.5
 burn_force: 30000
 
 mass: 160
-inertia_yaw: 210
-inertia_roll: 21
-inertia_pitch: 210
-
-nose_cd: 0.1
-side_cd: 1.1
-
-radius: 0.09 // fuselage radius m
-length: 3.6 // m
-
-
-
-
-
-
+I_yaw: 210
+I_roll: 21
+I_pitch: 210
+I_yawroll: 0
+I_yawpitch: 0
+I_rollpitch: 0
 
 
 

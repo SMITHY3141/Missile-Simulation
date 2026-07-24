@@ -3,8 +3,11 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import subprocess
 
-# Parameters
+result = subprocess.run(["./sim"])
+
+
 csv_file = "logs/log.csv"
 spacing = 20 # draw basis vectors every N points
 axis_length = 0.1 # scale size of vectors
@@ -46,6 +49,7 @@ for i in range(0, len(df), spacing):
 ax.set_xlim(center[0]-radius, center[0]+radius)
 ax.set_ylim(center[1]-radius, center[1]+radius)
 ax.set_zlim(center[2]-radius, center[2]+radius)
+ax.set_box_aspect((1, 1, 1))
 
 ax.set_xlabel("X")
 ax.set_ylabel("Y")

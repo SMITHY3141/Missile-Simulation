@@ -5,6 +5,7 @@
 .env
 *.o
 .swp
+.logs/
 
 .vscode/
 lib/EnTT

@@ -5,6 +5,8 @@
 #include <iostream>
 #include <VECTORS/vectors.hpp>
 #include <VECTORS/matrices.hpp>
+#define SAMPLES 10
+#define AOA_STEP 4.f
 
 namespace misl {
     struct RocketMotor {
@@ -13,30 +15,32 @@ namespace misl {
         int active;
 
     };
+    struct Aero {
+        float C_d;
+        float C_l;
 
+    };
     struct Fins {
         float pitch;
         float yaw;
-        float offset;
 
     };
-    struct Fuselage {
-        float length;
-        float radius;
+    struct Body {
         float mass;
-        float nose_cd;
-        float side_cd;
-        Vector<3> inertia; ///< order of pitch, roll, yaw
+        Matrix<3, 3> inertia; ///< order of pitch, roll, yaw
 
     };
 
     struct Missile {
         Vector<3> position;
         Vector<3> velocity;
+        Vector<3> omega;
         Matrix<3, 3> rotation; // right, forward, and up body vectors
         RocketMotor motor;
         Fins fins;
-        Fuselage body;
+        Body body;
+        Aero aero[SAMPLES];
+        float daoa;
 
     };
 
@@ -44,10 +48,12 @@ namespace misl {
 
     Vector<3> force_motor(const Missile &m);
     Vector<3> force_body(const Missile &m, float air_density);
-    Vector<3> force_fins(const Missile &m, float air_density);
+    Vector<3> force_fins(const Missile &m, float air_density); // TODO
 
-    Vector<3> torque_body(const Missile &m, float air_density);
     Vector<3> torque_fins(const Missile &m, float air_density);
+
+    Vector<3> acceleration(const Missile &m, const Vector<3> &force);
+    Vector<3> angular_acceleration(const Missile &m, const Vector<3> &torque);
 
     void update_state(Missile &m, const Vector<3> &acc, const Vector<3> &ang, float dt);
 

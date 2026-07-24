@@ -19,6 +19,8 @@ struct Vector {
     float data[N];
 
     float dot(const Vector<N> &other) const;
+    Vector<N> cross(const Vector<N> &other) const;
+    Vector<N> project(const Vector<N> &other) const;
     float length() const;
     Vector<N> normalised() const;
 
@@ -173,6 +175,21 @@ float Vector<N>::dot(const Vector<N> &other) const {
         dot += data[i] * other[i];
     }
     return dot;
+}
+template<int N>
+Vector<N> Vector<N>::cross(const Vector<N> &other) const {
+    return {
+        data[1] * other[2] - data[2] * other[1],
+        data[2] * other[0] - data[0] * other[2],
+        data[0] * other[1] - data[1] * other[0]
+    };
+
+}
+
+template <int N>
+Vector<N> Vector<N>::project(const Vector<N> &other) const {
+    Vector<3> u = other.normalised();
+    return this->dot(u) * u;
 }
 
 template<int N>
